@@ -41,39 +41,10 @@ Arvore <- setClass(
     )
 )
 
-#Cria uma árvore
-setGeneric(
-    name = "criaArvore",
-    def = function(arvore, x, y, esquerda, direita) {
-        standardGeneric("criaArvore")
-    }
-)
-
-setMethod(
-    f = "criaArvore",
-    signature = "Arvore",
-    definition = function(arvore, x, y, esquerda, direita) {
-        arvore@x <- x
-        arvore@y <- y
-        
-        #Testa se existe algum valor para a árvore da esquerda e atribui, se houver
-        if(!is.null(esquerda)) {
-            arvore@esquerda <- esquerda
-        }
-
-        #Testa se existe algum valor para a árvore da direita e atribui, se houver
-        if(!is.null(direita)) {
-            arvore@direita <- direita
-        }
-
-        return(arvore)
-    }
-)
-
 #Expande os filhos da árvore recebida
 setGeneric(
     name = "expandeArvore",
-    def = function(arvore, listaAbertos, listaFechados) {
+    def = function(arvore, pilhaAbertos, listaFechados) {
         standardGeneric("expandeArvore")
     }
 )
@@ -81,12 +52,12 @@ setGeneric(
 setMethod(
     f = "expandeArvore",
     signature = "Arvore",
-    definition = function(arvore, listaAbertos, listaFechados) {
+    definition = function(arvore, pilhaAbertos, listaFechados) {
         #A função elementoInedito testa se o elemento é inédito (ou seja, não está nem na lista de abertos, nem de fechados)
         #Retorna a listaRetorno com o elemento anexado se ele for inédito
         #Retorna a listaRetorno do jeito que está se ele não for inédito
-        elementoInedito <- function(no, listaRetorno, listaAbertos, listaFechados){
-            if(!(no %in% listaAbertos || no %in% listaFechados)){
+        elementoInedito <- function(no, listaRetorno, pilhaAbertos, listaFechados){
+            if(!(no %in% pilhaAbertos || no %in% listaFechados)){
                 return(append(listaRetorno, no))
             } else {
                 return(listaRetorno)
@@ -102,45 +73,73 @@ setMethod(
         if(arvore@x < 3) {
             no <- criaArvore(no, 3, arvore@y, NULL, NULL)
             #Testa se o elemento já apareceu em alguma lista
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 2: se y < 4, então (x, 4)
         if(arvore@y < 4) {
             no <- criaArvore(no, arvore@x, 4, NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 3: se x > 0, então (0, y)
         if(arvore@x > 0 ) {
             no <- criaArvore(no, 0, arvore@y, NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 4: se y > 0, então (x, 0)
         if(arvore@y > 0){
             no <- criaArvore(no, arvore@x, 0, NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 5: se y > 0 e x + y <= 3, então (x+y, 0)
         if((arvore@y > 0) && (arvore@x + arvore@y <= 3)) {
             no <- criaArvore(no, arvore@x + arvore@y, 0, NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 6: se y > 0 e x + y > 3, então (3, y - (3 - x))
         if((arvore@y > 0) && (arvore@x + arvore@y > 3)) {
             no <- criaArvore(no, 3, arvore@y - (3 - arvore@x), NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 7: se x > 0 e x + y <= 4, então (0, x + y)
         if((arvore@x > 0) && (arvore@x + arvore@y <= 4)){
             no <- criaArvore(no, 0, arvore@x + arvore@y, NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
         #Regra 8: se x > 0 e x + y > 4, então (x - (4 - y), 4)
         if((arvore@x > 0) && (arvore@x + arvore@y > 4)){
             no <- criaArvore(no, arvore@x - (4 - arvore@y),4 , NULL, NULL)
-            listaRetorno <- elementoInedito(arvore, listaRetorno, listaAbertos, listaFechados)
+            listaRetorno <- elementoInedito(arvore, listaRetorno, pilhaAbertos, listaFechados)
         }
 
         #Retorna o vetor com o(s) elemento(s) inédito(s) que será (ou serão) os filhos do nó testado
         return(listaRetorno)
+    }
+)
+
+#Recebe um vetor de nós e diz se um deles é a solução
+setGeneric(
+    name = "testaSolucao",
+    def = function(filhos) {
+        standardGeneric("testaSolucao")
+    }
+)
+
+setMethod(
+    f = "testaSolucao",
+    signature = "Arvore",
+    definition = function(filhos) {
+        #Testa se o primeiro elemento do vetor é solução e o retorna
+        if(filhos[1]@y == 4) {
+            return(filhos[1])
+        }
+
+        #Testa se existe um segundo elemento. Se existir, testa se ele é solução e o retorna
+        if(length(filhos) == 2) {
+            if(filhos[2]@y == 2) {
+                return(filhos[2])
+            }
+        }
+        #Se nenhum deles for solução, retorna NULL
+        return(NULL)
     }
 )
