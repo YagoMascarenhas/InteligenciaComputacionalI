@@ -2,31 +2,61 @@
 #include <stdlib.h>
 #include "..\headers\arvore.h"
 
-//Cria uma árvore vazia
-void criaArvoreVazia(TipoArvore** arvore) {
+//Cria uma árvore ternária vazia
+void criaArvoreTernariaVazia(TipoArvore** arvore) {
     *arvore = NULL;
 }
 
-//Testa se a árvore está vazia
-int testaArvoreVazia(TipoArvore** arvore) {
+//Testa se a árvore ternária está vazia
+int testaArvoreTernariaVazia(TipoArvore** arvore) {
     return (*arvore == NULL);
 }
 
-//Cria uma árvore
-void criaArvore(TipoItem item, TipoArvore** arvore, TipoArvore* filhos[3]) {
-    int i;
-
+//Cria uma árvore ternária
+void criaArvoreTernaria(TipoItem item, TipoArvore** arvore, TipoArvore** esquerda, TipoArvore** meio, TipoArvore** direita) {
     *arvore = (TipoArvore*)malloc(sizeof(TipoArvore));
     (*arvore)->item = item;
+    (*arvore)->esquerda = esquerda;
+    (*arvore)->meio = meio;
+    (*arvore)->direita = direita;
+}
 
-    for (i = 0; i < NUMFILHOS; i++){
-        (*arvore)->filhos[i] = filhos[i];
+//Libera a árvore ternária
+TipoArvore* liberaArvoreTernaria(TipoArvore** arvore) {
+    if (!testaArvoreTernariaVazia(arvore)) {
+        liberaArvoreTernaria((*arvore)->esquerda);
+        liberaArvoreTernaria((*arvore)->meio);
+        liberaArvoreTernaria((*arvore)->direita);
+        free(arvore);
     }
 }
 
-//Libera a árvore
-TipoArvore* liberaArvore(TipoArvore** arvore);
-//Verifica se um elemento pertence à árvore
-int pertenceArvore(TipoArvore** arvore, TipoItem item);
-//Imprime os elementos da árvore
-void imprimeArvore(TipoArvore** arvore, int l);
+//Verifica se um elemento pertence à árvore ternária
+int pertenceArvoreTernaria(TipoArvore** arvore, TipoItem item) {
+    if (testaArvoreTernariaVazia(arvore)) {
+        return 0;
+    } else {
+        return (*arvore)->item.nome == item.nome ||
+            pertenceArvoreTernaria((*arvore)->esquerda, item) || 
+            pertenceArvoreTernaria((*arvore)->meio, item) ||
+            pertenceArvoreTernaria((*arvore)->direita, item);
+    }
+}
+
+//Imprime os elementos da árvore ternária
+void imprimeArvoreTernaria(TipoArvore** arvore, int l) {
+    int i;
+
+    if(!testaArvoreTernariaVazia(arvore)) {
+        imprimeArvoreTernaria((*arvore->esquerda), l + 1);
+
+        for (i = 0; i < l, i++) {
+            printf("   ");
+        }
+
+        printf("%c \n", (*arvore)->item.nome);
+        
+        imprimeArvoreTernaria((*arvore->meio), l + 1);
+        imprimeArvoreTernaria((*arvore->direita), l + 1);
+    }
+}
