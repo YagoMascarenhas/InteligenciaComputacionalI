@@ -1,4 +1,3 @@
-import BuscaEmProfundidade.buscaProfundidade as bp
 class Grafo(object):
     #Inicializa as estruturas base do grafo
     def __init__(self):
@@ -9,8 +8,6 @@ class Grafo(object):
         if v1 not in self.adj:
             self.adj[v1] = {}
         self.adj[v1].update({v2: peso})
-        bp.func()
-        bp.func2()
 
     #Imprime o grafo
     def imprimeGrafo(self):
@@ -23,5 +20,14 @@ class Grafo(object):
     def retornaLigacoes(self, v):
         if v not in self.adj:
             print("Vértice não existe")
+            return None
         else:
             return self.adj[v]
+
+    #Gera um nó filho inédito da aresta
+    def geraFilhoInedito(self, v, abertos, fechados):
+        filhos = self.retornaLigacoes(v)
+        for filho in filhos:
+            if filho not in abertos and filho not in fechados:
+                return filho
+        return None
