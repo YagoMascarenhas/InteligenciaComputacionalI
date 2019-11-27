@@ -2,13 +2,13 @@
 Algoritmos implementados para a disciplina de Inteligência Computacional I na UEZO.
 
 Algoritmos a serem implementados:
-[x] Busca em Profundidade
-[x] Backtracking
-[x] Busca em Largura
-[x] Busca Ordenada
-[x] Busca Gulosa
-[x] Busca A*
-[ ] Sistema Especialista
+1. Busca em Profundidade (ok)
+2. Backtracking (ok)
+3. Busca em Largura (ok)
+4. Busca Ordenada (ok)
+5. Busca Gulosa (ok)
+6. Busca A* (ok)
+7. Sistema Especialista
 
 ### Como usar:
 * Na pasta **Grafos** estão os arquivos de texto usados para gerar os grafos.
