@@ -69,4 +69,4 @@ class Grafo(object):
 
     #Função que avalia o nó e retorna o valor avaliado
     def avaliaVertice(self, v, p):
-        return self.heuristica[v] + p 
+        return self.heuristica[v] + p
