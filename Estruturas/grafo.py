@@ -34,7 +34,7 @@ class Grafo(object):
         return None
 
     #Retorna o elemento de menor custo da lista
-    def elementoMenorCusto(lista):
+    def elementoMenorCusto(self, lista):
         menor = sys.maxsize
         for no in lista:
             if menor > lista[no]:
