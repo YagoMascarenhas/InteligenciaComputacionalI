@@ -1,4 +1,4 @@
-def buscaProfundidade(grafo, comeco, alvo):
+def backtracking(grafo, comeco, alvo):
     resposta = None
     pilhaAbertos = []
     pilhaAbertos.append(comeco)
