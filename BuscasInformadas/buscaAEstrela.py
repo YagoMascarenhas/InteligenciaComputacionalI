@@ -15,7 +15,7 @@ def buscaAEstrela(grafo, comeco, alvo):
         else:
             filhos = grafo.retornaLigacoes(candidato)
             for filho in filhos:
-                avaliacao = grafo.avaliaVertice(filho, filhos[filho])
+                avaliacao = grafo.avaliaVertice(filho, custo)
                 if filho not in listaAbertos:
                     listaAbertos[filho] = avaliacao
                 else:
