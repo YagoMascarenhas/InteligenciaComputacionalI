@@ -31,3 +31,28 @@ class Grafo(object):
             if filho not in abertos and filho not in fechados:
                 return filho
         return None
+
+    #Gera o valor de h(n)
+    def geraValoresHeuristicos(self, tipo):
+        '''TODO: mudar função também para leitura de arquivos depois'''
+        if tipo == 1:
+            self.heuristica = {
+                "A": 24,
+                "B": 15,
+                "C": 22,
+                "D": 12,
+                "E": 7,
+                "F": 7,
+                "G": 0
+            }
+        else:
+            if tipo == 2:
+                self.heuristica = {
+                    "A": 16,
+                    "B": 13,
+                    "C": 15,
+                    "D": 7,
+                    "E": 10,
+                    "F": 10,
+                    "G": 0
+                }

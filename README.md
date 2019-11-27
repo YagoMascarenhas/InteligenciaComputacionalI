@@ -4,7 +4,7 @@ Algoritmos implementados para a disciplina de Inteligência Computacional I na U
 Algoritmos a serem implementados:
 1. Busca em Profundidade (ok)
 2. Backtracking (ok)
-3. Busca em Largura
+3. Busca em Largura (ok)
 4. Busca Ordenada
 5. Busca Gulosa
 6. Busca A*
