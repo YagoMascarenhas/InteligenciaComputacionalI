@@ -1,3 +1,4 @@
+import sys
 class Grafo(object):
     #Inicializa as estruturas base do grafo
     def __init__(self):
@@ -31,6 +32,15 @@ class Grafo(object):
             if filho not in abertos and filho not in fechados:
                 return filho
         return None
+
+    #Retorna o elemento de menor custo da lista
+    def elementoMenorCusto(lista):
+        menor = sys.maxsize
+        for no in lista:
+            if menor > lista[no]:
+                node = no
+                menor = lista[no]
+        return node, menor
 
     #Gera o valor de h(n)
     def geraValoresHeuristicos(self, tipo):

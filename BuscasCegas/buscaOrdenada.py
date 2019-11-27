@@ -1,13 +1,3 @@
-import sys
-
-def elementoMenorCusto(lista):
-    menor = sys.maxsize
-    for no in lista:
-        if menor > lista[no]:
-            node = no
-            menor = lista[no]
-    return node, menor
-
 def buscaOrdenada(grafo, comeco, alvo):
     resposta = None
     listaAbertos = {comeco: 0}
@@ -15,7 +5,7 @@ def buscaOrdenada(grafo, comeco, alvo):
     sucesso = False
 
     while not sucesso and listaAbertos:
-        candidato, custo = elementoMenorCusto(listaAbertos)
+        candidato, custo = grafo.elementoMenorCusto(listaAbertos)
         del(listaAbertos[candidato])
         listaFechados.append(candidato)
         print(candidato, " -> ", custo)
