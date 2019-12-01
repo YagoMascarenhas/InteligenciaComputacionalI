@@ -17,5 +17,5 @@ def buscaOrdenada(grafo, comeco, alvo):
             for filho in filhos:
                 if filho in listaFechados:
                     continue
-                listaAbertos[filho] = filhos[filho]
+                listaAbertos[filho] = filhos[filho] + custo
     return sucesso, resposta
