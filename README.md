@@ -8,7 +8,7 @@ Algoritmos a serem implementados:
 4. Busca Ordenada (ok)
 5. Busca Gulosa (ok)
 6. Busca A* (ok)
-7. Sistema Especialista
+7. Sistema Especialista (ok)
 
 ### Como usar:
 * Na pasta **Grafos** estão os arquivos de texto usados para gerar os grafos.
